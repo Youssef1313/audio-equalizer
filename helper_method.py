@@ -16,19 +16,17 @@ def iir_filter(fs):
     wn = []
     irr_filters = []
     for i in range(len(freqs)):
-        lis = [freqs[i][0]/fs,freqs[i][1]/fs]
-        if lis[0] >= 1 or lis[1] >= 1 and i != 0:
+        lis = [freqs[i][0] / fs,freqs[i][1] / fs]
+        if lis[1] >= 1 and i != 0:
             wn.append(wn[i - 1])
         wn.append(lis)
     if len(wn) == 0:
         for i in range(len(freqs)):
-            b, a = signal.iirfilter(n, [0, 170/fs] , btype = 'lowpass')
-            lis = [b, a]
-            irr_filters.append(lis)
+            b, a = signal.iirfilter(n, [0, 170 / fs] , btype = 'lowpass')
+            irr_filters.append([b, a])
     else:
         for i in range(len(freqs)):
             b, a = signal.iirfilter(n, wn[i])
             lis = [b, a]
             irr_filters.append(lis)
     return irr_filters
-    
