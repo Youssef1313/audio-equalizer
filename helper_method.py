@@ -22,12 +22,9 @@ def iir_filter(fs):
         wn.append(lis)
     if len(wn) == 0:
         for i in range(len(freqs)):
-            b, a = signal.iirfilter(n, fs / fs, btype = 'lowpass')
-            irr_filters.append([b, a])
+            irr_filters.append(signal.iirfilter(n, fs / fs, btype = 'lowpass'))
     else:
         for i in range(len(freqs)):
-            b, a = signal.iirfilter(n, wn[i])
-            lis = [b, a]
-            irr_filters.append(lis)
+            irr_filters.append(signal.iirfilter(n, wn[i]))
     return irr_filters
 
