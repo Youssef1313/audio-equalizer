@@ -1,3 +1,6 @@
+from scipy import signal
+
+
 freqs = [[0,170],
          [170,310],
          [310,600],
@@ -8,7 +11,24 @@ freqs = [[0,170],
          [12000,14000],
          [14000,16000]
 ]
-
-
-
-
+def iir_filter(fs):
+    n = 10
+    wn = []
+    irr_filters = []
+    for i in range(len(freqs)):
+        lis = [freqs[i][0]/fs,freqs[i][1]/fs]
+        if lis[0] >= 1 or lis[1] >= 1 and i != 0:
+            wn.append(wn[i - 1])
+        wn.append(lis)
+    if len(wn) == 0:
+        for i in range(len(freqs)):
+            b, a = signal.iirfilter(n, [0, 170/fs] , btype = 'lowpass')
+            lis = [b, a]
+            irr_filters.append(lis)
+    else:
+        for i in range(len(freqs)):
+            b, a = signal.iirfilter(n, wn[i])
+            lis = [b, a]
+            irr_filters.append(lis)
+    return irr_filters
+    
