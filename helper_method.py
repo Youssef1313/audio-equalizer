@@ -1,6 +1,5 @@
 from scipy import signal
 
-
 freqs = [[0,170],
          [170,310],
          [310,600],
@@ -11,6 +10,7 @@ freqs = [[0,170],
          [12000,14000],
          [14000,16000]
 ]
+
 def iir_filter(fs):
     n = 10
     wn = []
@@ -30,3 +30,4 @@ def iir_filter(fs):
             lis = [b, a]
             irr_filters.append(lis)
     return irr_filters
+
