@@ -29,6 +29,6 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint src
-    - name: Test with pytest
-      run: |
-        pytest
+#    - name: Test with pytest
+#      run: |
+#        pytest
