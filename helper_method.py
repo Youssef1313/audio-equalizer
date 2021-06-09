@@ -1,5 +1,5 @@
 from scipy import signal
-from  .pzmap import pzmap
+from .pzmap import pzmap
 
 
 freqs = [[0, 170],
@@ -11,6 +11,7 @@ freqs = [[0, 170],
          [6000, 12000],
          [12000, 14000],
          [14000, 16000]]
+
 
 def plot_zeros_poles(p_z):
     for ele in (p_z):
