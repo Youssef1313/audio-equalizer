@@ -18,8 +18,9 @@ def iir_filter(order, fs):
         if lis[1] >= 1:
             return iir_filters
         if lis[0] == 0:
-            signal.iirfilter(order, lis[1], btype='lowpass')
+            current_filter = signal.iirfilter(order, lis[1], btype='lowpass')
         else:
-            signal.iirfilter(order, lis)
+            current_filter = signal.iirfilter(order, lis)
+        iir_filters.append([current_filter])
 
     return iir_filters
