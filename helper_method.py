@@ -11,8 +11,7 @@ freqs = [[0,170],
          [14000,16000]
 ]
 
-def iir_filter(fs):
-    n = 10
+def iir_filter(n, fs):
     wn = []
     irr_filters = []
     for i in range(len(freqs)):
