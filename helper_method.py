@@ -1,5 +1,5 @@
 from scipy import signal
-from  .pzmap import  pzmap
+from .pzmap import pzmap
 
 
 freqs = [[0,170],
