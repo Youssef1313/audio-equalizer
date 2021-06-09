@@ -1,3 +1,7 @@
+from scipy import signal
+from  .pzmap import  pzmap
+
+
 freqs = [[0,170],
          [170,310],
          [310,600],
@@ -9,6 +13,9 @@ freqs = [[0,170],
          [14000,16000]
 ]
 
-
+def plot_zeros_poles(p_z):
+    for i in range(9):
+        z = signal.TransferFunction(p_z[i][0], p_z[i][1])
+        pzmap(z.zeros, z.poles)
 
 
