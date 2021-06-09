@@ -8,3 +8,4 @@ root.withdraw()
 file_path = filedialog.askopenfilename()
 
 data, fs = sf.read(file_path)
+# TODO: Ask user for gain of each band.
