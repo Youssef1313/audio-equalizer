@@ -14,8 +14,6 @@ freqs = [[0,170],
 ]
 
 def plot_zeros_poles(p_z):
-    for _, ele in enumerate(p_z):
+    for ele in (p_z):
         z = signal.TransferFunction(ele[0], ele[1])
         pzmap(z.zeros, z.poles)
-
-
