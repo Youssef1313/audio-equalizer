@@ -1,5 +1,8 @@
 from scipy import signal
 from pzmap import pzmap
+import matplotlib.pyplot as plt
+from system_details import mfreqz
+from system_details import impz
 
 
 def get_bands():
@@ -34,3 +37,12 @@ def plot_zeros_poles(p_z):
     for ele in (p_z):
         z = signal.TransferFunction(ele[0], ele[1])
         pzmap(z.zeros, z.poles)
+
+
+def plot_mag_phase(filters):
+    for filter in filters:
+        mfreqz(filter[0],filter[1])
+
+def plot_impl_unitstep(filters):
+    for filter in filters:
+        impz(filter[0],filter[1])
