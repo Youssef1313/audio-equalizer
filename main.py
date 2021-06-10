@@ -1,7 +1,7 @@
 import tkinter as tk
 import soundfile as sf
 import numpy as np
-from helper_method import get_bands, iir_filter
+from helper_method import *
 from tkinter import filedialog
 from scipy import signal
 
@@ -16,20 +16,22 @@ print(f"Data dimensions: {np.shape(data)}")
 print(f"Frequency: {fs}")
 
 bands = get_bands()
-gains = []
-for band in bands:
-    gain = int(input(f"Enter the gain (in dB) for band {band}: "))
-    gains.append(gain)
+# gains = []
+# for band in bands:
+#     gain = int(input(f"Enter the gain (in dB) for band {band}: "))
+#     gains.append(gain)
 
 filter_type = input("Enter filter type (iir or fir): ")
 output_fs = int(input("Enter the output sample rate: "))
 
-order = 100
+order = 2
+filters = None
 if filter_type == 'iir':
-    # Figure out if we want to use fs from user input here..
-    filters = iir_filter(order, fs)
+    filters = iir_filter(order, output_fs)
 elif filter_type == 'fir':
     pass
+
+plot_mag_phase(filters)
 
 output = np.zeros_like(data)
 for filter in filters:
