@@ -24,7 +24,7 @@ def iir_filter(order, fs):
         if lis[1] >= 1:
             return iir_filters
         if lis[0] == 0:
-            current_filter = signal.iirfilter(order, lis[1], btype='lowpass', output='zpk')
+            current_filter = signal.iirfilter(order, lis[1],  output='zpk', btype='lowpass')
         else:
             current_filter = signal.iirfilter(order, lis, output='zpk')
         iir_filters.append([current_filter])
@@ -32,9 +32,10 @@ def iir_filter(order, fs):
     return iir_filters
 
 
-def plot_zeros_poles(p_z):
-    for ele in (p_z):
-        z = signal.TransferFunction(ele[0], ele[1])
+def plot_zeros_poles(poles_zeros):
+    for ele in (poles_zeros):
+        x = signal.ZerosPolesGain(ele[0][0], ele[0][1], ele[0][2])
+        z = signal.TransferFunction(x.to_tf().num, x.to_tf().den,)
         pzmap(z.zeros, z.poles)
 
 
