@@ -63,10 +63,9 @@ def plot_impl_unitstep(filters):
         impulse = np.repeat(0., 60)
         impulse[0] = 1.
         x = np.arange(0, 60)
-        x = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
+        coff = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
         # Compute the impulse response
-        response = signal.lfilter(x.to_tf().num, x.to_tf().den, impulse)
-    
+        response = signal.lfilter(coff.to_tf().num, coff.to_tf().den, impulse)
         # Plot filter impulse and step response:
         fig = plt.figure(figsize=(10, 6))
         plt.subplot(211)
@@ -74,16 +73,13 @@ def plot_impl_unitstep(filters):
         plt.ylabel('Amplitude', fontsize=15)
         plt.xlabel(r'n (samples)', fontsize=15)
         plt.title(r'Impulse response', fontsize=15)
-    
         plt.subplot(212)
         step = np.cumsum(response)
-    
         # Compute step response of the system
         plt.stem(x, step, 'g', use_line_collection=True)
         plt.ylabel('Amplitude', fontsize=15)
         plt.xlabel(r'n (samples)', fontsize=15)
         plt.title(r'Step response', fontsize=15)
         plt.subplots_adjust(hspace=0.5)
-    
         fig.tight_layout()
-        plt.show()
+    plt.show()

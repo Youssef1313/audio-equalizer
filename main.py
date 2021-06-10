@@ -2,7 +2,8 @@ import tkinter as tk
 import soundfile as sf
 import numpy as np
 from helper_method import get_bands, plot_mag_phase
-from helper_method import iir_filter
+from helper_method import iir_filter, plot_impl_unitstep
+from helper_method import plot_zeros_poles
 from tkinter import filedialog
 from scipy import signal
 
@@ -31,9 +32,9 @@ if filter_type == 'iir':
     filters = iir_filter(order, output_fs)
 elif filter_type == 'fir':
     pass
-
+plot_zeros_poles(filters)
 plot_mag_phase(filters)
-
+plot_impl_unitstep(filters)
 output = np.zeros_like(data)
 for filter in filters:
     x = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
