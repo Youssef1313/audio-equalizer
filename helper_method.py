@@ -24,7 +24,10 @@ def iir_filter(order, fs):
         if lis[1] >= 1:
             return iir_filters
         if lis[0] == 0:
-            current_filter = signal.iirfilter(order, lis[1], output='zpk', btype='lowpass')
+            current_filter = signal.iirfilter(
+                                            order, lis[1],
+                                            output='zpk',
+                                            btype='lowpass')
         else:
             current_filter = signal.iirfilter(order, lis, output='zpk')
         iir_filters.append([current_filter])
@@ -34,9 +37,7 @@ def iir_filter(order, fs):
 
 def plot_zeros_poles(poles_zeros):
     for ele in (poles_zeros):
-        x = signal.ZerosPolesGain(ele[0][0], ele[0][1], ele[0][2])
-        z = signal.TransferFunction(x.to_tf().num, x.to_tf().den,)
-        pzmap(z.zeros, z.poles)
+        pzmap(ele[0][0], ele[0][1])
 
 
 def plot_mag_phase(filters):
@@ -55,6 +56,34 @@ def plot_mag_phase(filters):
         ax2.set_ylabel('Angle [radians]', color='g')
         plt.axis('tight')
     plt.show()
-# def plot_impl_unitstep(filters):
-#     for filter in filters:
-#         impz(filter[0], filter[1])
+
+
+def plot_impl_unitstep(filters):
+    for filter in filters:
+        impulse = np.repeat(0., 60)
+        impulse[0] = 1.
+        x = np.arange(0, 60)
+        x = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
+        # Compute the impulse response
+        response = signal.lfilter(x.to_tf().num, x.to_tf().den, impulse)
+    
+        # Plot filter impulse and step response:
+        fig = plt.figure(figsize=(10, 6))
+        plt.subplot(211)
+        plt.stem(x, response, 'm', use_line_collection=True)
+        plt.ylabel('Amplitude', fontsize=15)
+        plt.xlabel(r'n (samples)', fontsize=15)
+        plt.title(r'Impulse response', fontsize=15)
+    
+        plt.subplot(212)
+        step = np.cumsum(response)
+    
+        # Compute step response of the system
+        plt.stem(x, step, 'g', use_line_collection=True)
+        plt.ylabel('Amplitude', fontsize=15)
+        plt.xlabel(r'n (samples)', fontsize=15)
+        plt.title(r'Step response', fontsize=15)
+        plt.subplots_adjust(hspace=0.5)
+    
+        fig.tight_layout()
+        plt.show()
