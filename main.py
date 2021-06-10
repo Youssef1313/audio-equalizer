@@ -33,7 +33,7 @@ if filter_type == 'iir':
 elif filter_type == 'fir':
     pass
 plot_zeros_poles(filters)
-plot_mag_phase(filters)
+plot_mag_phase(filters, output_fs)
 plot_impl_unitstep(filters)
 output = np.zeros_like(data)
 for filter in filters:

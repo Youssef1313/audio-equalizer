@@ -40,9 +40,9 @@ def plot_zeros_poles(poles_zeros):
         pzmap(ele[0][0], ele[0][1])
 
 
-def plot_mag_phase(filters):
+def plot_mag_phase(filters, fs):
     for fi in filters:
-        w, h = signal.freqz_zpk(fi[0][0], fi[0][1], fi[0][2], fs=1000)
+        w, h = signal.freqz_zpk(fi[0][0], fi[0][1], fi[0][2], fs=fs)
         fig = plt.figure()
         ax1 = fig.add_subplot(1, 1, 1)
         ax1.set_title('Digital filter frequency response')
