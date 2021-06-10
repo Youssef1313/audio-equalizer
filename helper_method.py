@@ -1,6 +1,5 @@
 from scipy import signal
 from pzmap import pzmap
-import matplotlib.pyplot as plt
 from system_details import mfreqz
 from system_details import impz
 

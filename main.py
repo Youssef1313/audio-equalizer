@@ -34,3 +34,6 @@ elif filter_type == 'fir':
 output = np.zeros_like(data)
 for filter in filters:
     output = output + signal.lfilter(filter[0][0], filter[0][1], data)
+
+output_file_name = filedialog.asksaveasfilename()
+sf.write(output_file_name, output, output_fs)
