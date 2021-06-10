@@ -35,7 +35,8 @@ plot_mag_phase(filters)
 
 output = np.zeros_like(data)
 for filter in filters:
-    output = output + signal.lfilter(filter[0][0], filter[0][1], data)
+    x = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
+    output = output + signal.lfilter(x.to_tf().num, x.to_tf().den, data)
 
 output_file_name = filedialog.asksaveasfilename()
 sf.write(output_file_name, output, output_fs)
