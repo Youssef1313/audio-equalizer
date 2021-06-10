@@ -1,4 +1,5 @@
 from scipy import signal
+from .pzmap import pzmap
 
 freqs = [[0, 170],
          [170, 310],
@@ -24,3 +25,9 @@ def iir_filter(order, fs):
         iir_filters.append([current_filter])
 
     return iir_filters
+
+
+def plot_zeros_poles(p_z):
+    for ele in (p_z):
+        z = signal.TransferFunction(ele[0], ele[1])
+        pzmap(z.zeros, z.poles)
