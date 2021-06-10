@@ -41,8 +41,8 @@ def plot_zeros_poles(p_z):
 
 def plot_mag_phase(filters):
     for filter in filters:
-        mfreqz(filter[0],filter[1])
+        mfreqz(filter[0], filter[1])
 
 def plot_impl_unitstep(filters):
     for filter in filters:
-        impz(filter[0],filter[1])
+        impz(filter[0], filter[1])
