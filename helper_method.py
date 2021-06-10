@@ -39,10 +39,11 @@ def plot_zeros_poles(p_z):
 
 
 def plot_mag_phase(filters):
+    # i = 0
     for fi in filters:
         w, h = signal.freqz(fi[0][0], fi[0][1])
         fig, ax1 = plt.subplots()
-        ax1.set_title('Digital filter frequency response')
+        ax1.set_title('Digital filter frequency response ')
         ax1.plot(w, 20 * np.log10(abs(h)), 'b')
         ax1.set_ylabel('Amplitude [dB]', color='b')
         ax1.set_xlabel('Frequency [rad/sample]')
@@ -53,7 +54,9 @@ def plot_mag_phase(filters):
         ax2.set_ylabel('Angle (radians)', color='g')
         ax2.grid()
         ax2.axis('tight')
-        plt.show()
+    plt.show()
+
+
 # def plot_impl_unitstep(filters):
 #     for filter in filters:
 #         impz(filter[0], filter[1])
