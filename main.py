@@ -1,7 +1,8 @@
 import tkinter as tk
 import soundfile as sf
 import numpy as np
-from helper_method import *
+from helper_method import get_bands, plot_mag_phase
+from helper_method import iir_filter
 from tkinter import filedialog
 from scipy import signal
 
