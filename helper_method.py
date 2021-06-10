@@ -20,7 +20,7 @@ def iir_filter(order, fs):
     iir_filters = []
     bands = get_bands()
     for i in range(len(bands)):
-        lis = [bands[i][0]*2 / fs, bands[i][1]*2 / fs]
+        lis = [bands[i][0] * 2 / fs, bands[i][1] * 2 / fs]
         if lis[1] >= 1:
             return iir_filters
         if lis[0] == 0:
