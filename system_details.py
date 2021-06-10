@@ -1,6 +1,7 @@
 from pylab import *
 import scipy.signal as signal
 
+
 #Plot frequency and phase response
 def mfreqz(b,a=1):
     w,h = signal.freqz(b,a)
@@ -37,3 +38,4 @@ def impz(b,a=1):
     xlabel(r'n (samples)')
     title(r'Step response')
     subplots_adjust(hspace=0.5)
+    
