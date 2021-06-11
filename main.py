@@ -19,10 +19,10 @@ print(f"Data dimensions: {np.shape(data)}")
 print(f"Frequency: {fs}")
 
 bands = get_bands()
-# gains = []
-# for band in bands:
-#     gain = int(input(f"Enter the gain (in dB) for band {band}: "))
-#     gains.append(gain)
+gains = []
+for band in bands:
+    gain = int(input(f"Enter the gain (in dB) for band {band}: "))
+    gains.append(gain)
 
 filter_type = input("Enter filter type (iir or fir): ")
 output_fs = int(input("Enter the output sample rate: "))
@@ -37,11 +37,14 @@ plot_zeros_poles(filters)
 plot_mag_phase(filters, output_fs)
 plot_impl_unitstep(filters)
 output = np.zeros_like(data)
-for filter in filters:
-    x = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
-    output = output + signal.lfilter(x.to_tf().num, x.to_tf().den, data)
+for i, filter in enumerate(filters):
+    current = signal.lfilter(filter[0], filter[1], data)
+    # TODO: Draw current in time and frequency domain
+    output = output + current * (10 ** (gains[i] / 20))
+# TODO: Draw output in time and frequency domain
 
 output_file_name = tk.filedialog.asksaveasfilename(title="Save wav file",
                                                    defaultextension='.wav',
                                                    filetypes=filetypes)
 sf.write(output_file_name, output, output_fs)
+input("Press any key to exit...")
