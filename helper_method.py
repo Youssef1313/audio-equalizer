@@ -52,17 +52,17 @@ def iir_filters(order, fs):
 
 
 def plot_zeros_poles(poles_zeros):
-    plot_number = 1
+    plot_index = 0
     bands = get_bands()
     for ele in poles_zeros:
         tf = control.TransferFunction(ele[0], ele[1])
         plt.figure()
         plt.gca().add_patch(plt.Circle((0, 0), 1, fill=False))
-        lower_bound = str(bands[plot_number - 1][0])
-        upper_bound = str(bands[plot_number - 1][1])
-        title = f"Pole-zero plot of filter {lower_bound} to {upper_bound}"
+        lower_bound = str(bands[plot_index][0])
+        upper_bound = str(bands[plot_index][1])
+        title = f"Pole-zero plot of filter {lower_bound}Hz to {upper_bound}Hz"
         control.pzmap(tf, title=title)
-        plot_number += 1
+        plot_index += 1
 
 
 def plot_mag_phase(filters, fs):
