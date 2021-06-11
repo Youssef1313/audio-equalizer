@@ -30,7 +30,8 @@ def fir_filters(order, fs):
     for i in range(1, len(bands)):
         if bands[i][1] >= 1:
             break
-        filters.append((signal.firwin(order + 1, bands[i]), np.array(1)))
+        filters.append((signal.firwin(order + 1, bands[i], pass_zero=False),
+                        np.array(1)))
 
     return filters
 
