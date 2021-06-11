@@ -88,7 +88,8 @@ def plot_mag_phase(filters, fs):
 
 
 def plot_impl_unitstep(filters):
-    for filter in filters:
+    bands = get_bands()
+    for i, filter in enumerate(filters):
         impulse = np.repeat(0., 60)
         impulse[0] = 1.
         x = np.arange(0, 60)
@@ -100,14 +101,16 @@ def plot_impl_unitstep(filters):
         plt.stem(x, response, 'm', use_line_collection=True)
         plt.ylabel('Amplitude', fontsize=15)
         plt.xlabel(r'n (samples)', fontsize=15)
-        plt.title(r'Impulse response', fontsize=15)
+        plt.title('Impulse response for filter ' +
+                  f'({bands[i][0]} to {bands[i][1]})Hz', fontsize=15)
         plt.subplot(212)
         step = np.cumsum(response)
         # Compute step response of the system
         plt.stem(x, step, 'g', use_line_collection=True)
         plt.ylabel('Amplitude', fontsize=15)
         plt.xlabel(r'n (samples)', fontsize=15)
-        plt.title(r'Step response', fontsize=15)
+        plt.title('Step response for filter ' +
+                  f'({bands[i][0]} to {bands[i][1]})Hz', fontsize=15)
         plt.subplots_adjust(hspace=0.5)
         fig.tight_layout()
     plt.show(block=False)
