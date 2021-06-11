@@ -85,7 +85,7 @@ def plot_mag_phase(filters, fs):
         ax2.plot(w, angles, 'g')
         ax2.set_ylabel('Angle [radians]', color='g')
         plt.axis('tight')
-    plt.show()
+    plt.show(block=False)
 
 
 def plot_impl_unitstep(filters):
@@ -111,4 +111,4 @@ def plot_impl_unitstep(filters):
         plt.title(r'Step response', fontsize=15)
         plt.subplots_adjust(hspace=0.5)
         fig.tight_layout()
-    plt.show()
+    plt.show(block=False)

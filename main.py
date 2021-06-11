@@ -7,12 +7,11 @@ from helper_method import (get_bands, plot_mag_phase,
 from tkinter import filedialog
 from scipy import signal
 
-fir = fir_filters(20, 8000)
-iir = iir_filters(2, 8000)
-
 root = tk.Tk()
 root.withdraw()
-file_path = filedialog.askopenfilename()
+filetypes = [("wav files", ".wav")]
+file_path = filedialog.askopenfilename(title="Select .wav file",
+                                       filetypes=filetypes)
 data, fs = sf.read(file_path)
 data = np.asarray(data)
 print("File information:")
@@ -29,12 +28,11 @@ bands = get_bands()
 filter_type = input("Enter filter type (iir or fir): ")
 output_fs = int(input("Enter the output sample rate: "))
 
-order = 2
 filters = None
 if filter_type == 'iir':
-    filters = iir_filters(order, output_fs)
+    filters = iir_filters(2, output_fs)
 elif filter_type == 'fir':
-    filters = fir_filters(order, output_fs)
+    filters = fir_filters(2, output_fs)
 
 plot_zeros_poles(filters)
 plot_mag_phase(filters, output_fs)
@@ -44,5 +42,7 @@ for filter in filters:
     x = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
     output = output + signal.lfilter(x.to_tf().num, x.to_tf().den, data)
 
-output_file_name = filedialog.asksaveasfilename()
+output_file_name = filedialog.asksaveasfilename(title="Save wav file",
+                                                defaultextension='.wav',
+                                                filetypes=filetypes)
 sf.write(output_file_name, output, output_fs)
