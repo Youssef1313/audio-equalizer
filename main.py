@@ -1,4 +1,5 @@
-import tkinter.filedialog
+import tkinter as tk
+from tkinter import filedialog
 import soundfile as sf
 import numpy as np
 from helper_method import get_bands, plot_mag_phase,\
@@ -9,7 +10,7 @@ root = tk.Tk()
 root.withdraw()
 filetypes = [("wav files", ".wav")]
 file_path = filedialog.askopenfilename(title="Select .wav file",
-                                          filetypes=filetypes)
+                                       filetypes=filetypes)
 data, fs = sf.read(file_path)
 data = np.asarray(data)
 print("File information:")
@@ -50,7 +51,7 @@ for i, filter in enumerate(filters_with_gain):
 # TODO: Draw output in time and frequency domain
 
 output_file_name = filedialog.asksaveasfilename(title="Save wav file",
-                                                   defaultextension='.wav',
-                                                   filetypes=filetypes)
+                                                defaultextension='.wav',
+                                                filetypes=filetypes)
 sf.write(output_file_name, output, output_fs)
 input("Press any key to exit...")
