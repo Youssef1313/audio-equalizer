@@ -1,4 +1,3 @@
-from inspect import getabsfile
 import numpy as np
 import control
 from scipy import signal
