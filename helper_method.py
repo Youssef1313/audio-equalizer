@@ -18,19 +18,19 @@ def get_bands():
 
 def fir_filters(order, fs):
     filters = []
-    freqs = get_bands() / fs
+    bands = get_bands() / fs
 
-    if freqs[0][0] != 0:
+    if bands[0][0] != 0:
         raise ValueError("First filter is expected to be a lowpass filter.")
 
-    if freqs[0][1] >= 1:
+    if bands[0][1] >= 1:
         return filters
 
-    filters.append((signal.firwin(order + 1, freqs[0][1]), np.array(1)))
-    for i in range(1, len(freqs)):
-        if freqs[i][1] >= 1:
+    filters.append((signal.firwin(order + 1, bands[0][1]), np.array(1)))
+    for band in bands:
+        if bands[1] >= 1:
             break
-        filters.append((signal.firwin(order + 1, freqs[i]), np.array(1)))
+        filters.append((signal.firwin(order + 1, band), np.array(1)))
 
     return filters
 
@@ -38,13 +38,13 @@ def fir_filters(order, fs):
 def iir_filters(order, fs):
     filters = []
     bands = get_bands() / (fs / 2)
-    for lis in bands:
-        if lis[1] >= 1:
+    for band in bands:
+        if band[1] >= 1:
             return filters
-        if lis[0] == 0:
-            current_filter = signal.iirfilter(order, lis[1], btype='lowpass')
+        if band[0] == 0:
+            current_filter = signal.iirfilter(order, band[1], btype='lowpass')
         else:
-            current_filter = signal.iirfilter(order, lis)
+            current_filter = signal.iirfilter(order, band)
         filters.append(current_filter)
 
     return filters
