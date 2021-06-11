@@ -31,7 +31,7 @@ filters = None
 if filter_type == 'iir':
     filters = iir_filters(2, output_fs)
 elif filter_type == 'fir':
-    filters = fir_filters(2, output_fs)
+    filters = fir_filters(200, output_fs)
 
 plot_zeros_poles(filters)
 plot_mag_phase(filters, output_fs)
