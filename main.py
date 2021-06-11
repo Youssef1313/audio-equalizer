@@ -45,10 +45,10 @@ for i, filter in enumerate(filters):
 plot_mag_phase(filters_with_gain, output_fs)
 
 output = np.zeros_like(data)
-for i, filter in enumerate(filters):
+for i, filter in enumerate(filters_with_gain):
     current = signal.lfilter(filter[0], filter[1], data)
     # TODO: Draw current in time and frequency domain
-    output = output + current * (10 ** (gains[i] / 20))
+    output = output + current
 # TODO: Draw output in time and frequency domain
 
 output_file_name = tk.filedialog.asksaveasfilename(title="Save wav file",
