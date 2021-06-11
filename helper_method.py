@@ -36,19 +36,18 @@ def fir_filters(order, fs):
 
 
 def iir_filters(order, fs):
-    iir_filters = []
+    filters = []
     bands = get_bands() / (fs / 2)
-    for i in range(len(bands)):
-        lis = bands[i]
+    for lis in bands:
         if lis[1] >= 1:
-            return iir_filters
+            return filters
         if lis[0] == 0:
             current_filter = signal.iirfilter(order, lis[1], btype='lowpass')
         else:
             current_filter = signal.iirfilter(order, lis)
-        iir_filters.append(current_filter)
+        filters.append(current_filter)
 
-    return iir_filters
+    return filters
 
 
 def plot_zeros_poles(poles_zeros):
@@ -67,8 +66,8 @@ def plot_zeros_poles(poles_zeros):
 
 def plot_mag_phase(filters, fs):
     bands = get_bands()
-    for i in range(len(filters)):
-        w, h = signal.freqz(filters[i][0], filters[i][1], fs=fs)
+    for i, filter in enumerate(filters):
+        w, h = signal.freqz(filter[0], filter[1], fs=fs)
         fig = plt.figure()
         ax1 = fig.add_subplot(1, 1, 1)
 

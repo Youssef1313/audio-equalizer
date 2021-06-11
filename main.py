@@ -4,14 +4,13 @@ import numpy as np
 from helper_method import (get_bands, plot_mag_phase,
                            iir_filters, fir_filters,
                            plot_impl_unitstep, plot_zeros_poles)
-from tkinter import filedialog
 from scipy import signal
 
 root = tk.Tk()
 root.withdraw()
 filetypes = [("wav files", ".wav")]
-file_path = filedialog.askopenfilename(title="Select .wav file",
-                                       filetypes=filetypes)
+file_path = tk.filedialog.askopenfilename(title="Select .wav file",
+                                          filetypes=filetypes)
 data, fs = sf.read(file_path)
 data = np.asarray(data)
 print("File information:")
@@ -42,7 +41,7 @@ for filter in filters:
     x = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
     output = output + signal.lfilter(x.to_tf().num, x.to_tf().den, data)
 
-output_file_name = filedialog.asksaveasfilename(title="Save wav file",
-                                                defaultextension='.wav',
-                                                filetypes=filetypes)
+output_file_name = tk.filedialog.asksaveasfilename(title="Save wav file",
+                                                   defaultextension='.wav',
+                                                   filetypes=filetypes)
 sf.write(output_file_name, output, output_fs)
