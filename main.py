@@ -1,9 +1,9 @@
 import tkinter as tk
+import tkinter.filedialog
 import soundfile as sf
 import numpy as np
-from helper_method import (get_bands, plot_mag_phase,
-                           iir_filters, fir_filters,
-                           plot_impl_unitstep, plot_zeros_poles)
+from helper_method import get_bands, plot_mag_phase,\
+                          iir_filters, fir_filters
 from scipy import signal
 
 root = tk.Tk()
@@ -17,7 +17,6 @@ print("File information:")
 print(f"Path: {file_path}")
 print(f"Data dimensions: {np.shape(data)}")
 print(f"Frequency: {fs}")
-
 bands = get_bands()
 gains = []
 for band in bands:
