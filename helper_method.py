@@ -27,7 +27,8 @@ def design_fir_system(fs, order=100, freqs=get_bands()):
         freqs[i] = freqs[i] / fs
         if freqs[i][1] < 1:
             filters.append(scipy.signal.firwin(order + 1, freqs[i]))
-            break
+            continue
+        break
 
     return filters
 
