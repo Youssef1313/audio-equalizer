@@ -53,7 +53,7 @@ def iir_filter(order, fs):
 
 
 def plot_zeros_poles(poles_zeros):
-    for ele in (poles_zeros):
+    for ele in poles_zeros:
         pzmap(ele[0][0], ele[0][1])
 
 
@@ -100,9 +100,3 @@ def plot_impl_unitstep(filters):
         plt.subplots_adjust(hspace=0.5)
         fig.tight_layout()
     plt.show()
-
-
-def plot_zeros_poles(p_z):
-    for ele in (p_z):
-        z = signal.TransferFunction(ele[0], ele[1])
-        pzmap(z.zeros, z.poles)
