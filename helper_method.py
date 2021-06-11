@@ -18,51 +18,48 @@ def get_bands():
 
 def fir_filters(order, fs):
     filters = []
-    freqs = get_bands()
-    freqs[0] = freqs[0] / fs
+    freqs = get_bands() / fs
+
     if freqs[0][0] != 0:
         raise ValueError("First filter is expected to be a lowpass filter.")
 
-    if freqs[0][1] < 1:
-        filters.append([signal.firwin(order + 1, freqs[0][1])])
+    if freqs[0][1] >= 1:
+        return filters
 
+    filters.append((signal.firwin(order + 1, freqs[0][1]), np.array(1)))
     for i in range(1, len(freqs)):
-        freqs[i] = freqs[i] / fs
-        if freqs[i][1] < 1:
-            filters.append(signal.firwin(order + 1, freqs[i]))
-            continue
-        break
+        if freqs[i][1] >= 1:
+            break
+        filters.append((signal.firwin(order + 1, freqs[i]), np.array(1)))
 
     return filters
 
 
-def iir_filter(order, fs):
+def iir_filters(order, fs):
     iir_filters = []
-    bands = get_bands()
+    bands = get_bands() / (fs / 2)
     for i in range(len(bands)):
-        lis = [bands[i][0] * 2 / fs, bands[i][1] * 2 / fs]
+        lis = bands[i]
         if lis[1] >= 1:
             return iir_filters
         if lis[0] == 0:
-            current_filter = signal.iirfilter(
-                                            order, lis[1],
-                                            output='zpk',
-                                            btype='lowpass')
+            current_filter = signal.iirfilter(order, lis[1], btype='lowpass')
         else:
-            current_filter = signal.iirfilter(order, lis, output='zpk')
-        iir_filters.append([current_filter])
+            current_filter = signal.iirfilter(order, lis)
+        iir_filters.append(current_filter)
 
     return iir_filters
 
 
 def plot_zeros_poles(poles_zeros):
     for ele in poles_zeros:
-        pzmap(ele[0][0], ele[0][1])
+        tf = signal.TransferFunction(ele[0], ele[1])
+        pzmap(tf.zeros, tf.poles)
 
 
 def plot_mag_phase(filters, fs):
     for fi in filters:
-        w, h = signal.freqz_zpk(fi[0][0], fi[0][1], fi[0][2], fs=fs)
+        w, h = signal.freqz(fi[0], fi[1], fs=fs)
         fig = plt.figure()
         ax1 = fig.add_subplot(1, 1, 1)
         ax1.set_title('Digital filter frequency response')
@@ -83,9 +80,8 @@ def plot_impl_unitstep(filters):
         impulse = np.repeat(0., 60)
         impulse[0] = 1.
         x = np.arange(0, 60)
-        coff = signal.ZerosPolesGain(filter[0][0], filter[0][1], filter[0][2])
         # Compute the impulse response
-        response = signal.lfilter(coff.to_tf().num, coff.to_tf().den, impulse)
+        response = signal.lfilter(filter[0], filter[1], impulse)
         # Plot filter impulse and step response:
         fig = plt.figure(figsize=(10, 6))
         plt.subplot(211)

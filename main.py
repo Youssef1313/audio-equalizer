@@ -1,11 +1,14 @@
 import tkinter as tk
 import soundfile as sf
 import numpy as np
-from helper_method import get_bands, plot_mag_phase
-from helper_method import iir_filter, plot_impl_unitstep
-from helper_method import plot_zeros_poles
+from helper_method import (get_bands, plot_mag_phase,
+                           iir_filters, fir_filters,
+                           plot_impl_unitstep, plot_zeros_poles)
 from tkinter import filedialog
 from scipy import signal
+
+fir = fir_filters(20, 8000)
+iir = iir_filters(2, 8000)
 
 root = tk.Tk()
 root.withdraw()
@@ -29,9 +32,10 @@ output_fs = int(input("Enter the output sample rate: "))
 order = 2
 filters = None
 if filter_type == 'iir':
-    filters = iir_filter(order, output_fs)
+    filters = iir_filters(order, output_fs)
 elif filter_type == 'fir':
-    pass
+    filters = fir_filters(order, output_fs)
+
 plot_zeros_poles(filters)
 plot_mag_phase(filters, output_fs)
 plot_impl_unitstep(filters)
