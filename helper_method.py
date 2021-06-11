@@ -1,19 +1,36 @@
-from scipy import signal
+import numpy as np
 from pzmap import pzmap
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.signal
 
 
 def get_bands():
-    return [[0, 170],
-            [170, 310],
-            [310, 600],
-            [600, 1000],
-            [1000, 3000],
-            [3000, 6000],
-            [6000, 12000],
-            [12000, 14000],
-            [14000, 16000]]
+    return np.array([[0, 170],
+                     [170, 310],
+                     [310, 600],
+                     [600, 1000],
+                     [1000, 3000],
+                     [3000, 6000],
+                     [6000, 12000],
+                     [12000, 14000],
+                     [14000, 16000]])
+
+
+def design_fir_system(fs, order=100, freqs=get_bands()):
+
+    filters = []
+
+    freqs[0] = freqs[0] / fs
+    if freqs[0][1] < 1:
+        filters[0] = scipy.signal.firwin(order + 1, freqs[0][1])
+
+    for i in range(1, len(freqs)):
+        freqs[i] = freqs[i] / fs
+        if freqs[i][1] < 1:
+            filters.append(scipy.signal.firwin(order + 1, freqs[i]))
+
+    return filters
 
 
 def iir_filter(order, fs):
@@ -24,12 +41,12 @@ def iir_filter(order, fs):
         if lis[1] >= 1:
             return iir_filters
         if lis[0] == 0:
-            current_filter = signal.iirfilter(
+            current_filter = scipy.signal.iirfilter(
                                             order, lis[1],
                                             output='zpk',
                                             btype='lowpass')
         else:
-            current_filter = signal.iirfilter(order, lis, output='zpk')
+            current_filter = scipy.signal.iirfilter(order, lis, output='zpk')
         iir_filters.append([current_filter])
 
     return iir_filters
@@ -83,3 +100,9 @@ def plot_impl_unitstep(filters):
         plt.subplots_adjust(hspace=0.5)
         fig.tight_layout()
     plt.show()
+
+
+def plot_zeros_poles(p_z):
+    for ele in (p_z):
+        z = scipy.signal.TransferFunction(ele[0], ele[1])
+        pzmap(z.zeros, z.poles)
