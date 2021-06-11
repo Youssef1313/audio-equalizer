@@ -1,4 +1,3 @@
-import tkinter as tk
 import tkinter.filedialog
 import soundfile as sf
 import numpy as np
@@ -9,7 +8,7 @@ from scipy import signal
 root = tk.Tk()
 root.withdraw()
 filetypes = [("wav files", ".wav")]
-file_path = tk.filedialog.askopenfilename(title="Select .wav file",
+file_path = filedialog.askopenfilename(title="Select .wav file",
                                           filetypes=filetypes)
 data, fs = sf.read(file_path)
 data = np.asarray(data)
@@ -50,7 +49,7 @@ for i, filter in enumerate(filters_with_gain):
     output = output + current
 # TODO: Draw output in time and frequency domain
 
-output_file_name = tk.filedialog.asksaveasfilename(title="Save wav file",
+output_file_name = filedialog.asksaveasfilename(title="Save wav file",
                                                    defaultextension='.wav',
                                                    filetypes=filetypes)
 sf.write(output_file_name, output, output_fs)
