@@ -18,7 +18,7 @@ def get_bands():
 
 def fir_filters(order, fs):
     filters = []
-    bands = get_bands() / fs
+    bands = get_bands() / (fs / 2)
 
     if bands[0][0] != 0:
         raise ValueError("First filter is expected to be a lowpass filter.")
