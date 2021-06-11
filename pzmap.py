@@ -25,18 +25,17 @@ from matplotlib import patches
 import numpy as np
 
 
-def pzmap(z, p, filename=None, ztransform=False):
+def pzmap(z, p, title, plot_number, filename=None):
     """Plot the complex z-plane given a transfer function.
     """
 
     # get a figure/plot
-    ax = plt.subplot(111)
+    ax = plt.subplot(3, 3, plot_number)
 
-    if ztransform:
-        # create the unit circle
-        uc = patches.Circle((0, 0), radius=1, fill=False,
-                            color='black', ls='dashed')
-        ax.add_patch(uc)
+    # create the unit circle
+    uc = patches.Circle((0, 0), radius=1, fill=False,
+                        color='black', ls='dashed')
+    ax.add_patch(uc)
 
     # Plot the zeros and set marker properties
     t1 = plt.plot(z.real, z.imag, 'go', ms=10)
@@ -47,6 +46,7 @@ def pzmap(z, p, filename=None, ztransform=False):
     t2 = plt.plot(p.real, p.imag, 'rx', ms=10)
     plt.setp(t2, markersize=12.0, markeredgewidth=3.0,
              markeredgecolor='r', markerfacecolor='r')
+    plt.title(title)
 
     ax.spines['left'].set_position('center')
     ax.spines['bottom'].set_position('center')

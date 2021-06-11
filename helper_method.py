@@ -52,9 +52,11 @@ def iir_filters(order, fs):
 
 
 def plot_zeros_poles(poles_zeros):
+    plot_number = 1
     for ele in poles_zeros:
         tf = signal.TransferFunction(ele[0], ele[1])
-        pzmap(tf.zeros, tf.poles)
+        pzmap(tf.zeros, tf.poles, "", plot_number)
+        plot_number += 1
 
 
 def plot_mag_phase(filters, fs):
