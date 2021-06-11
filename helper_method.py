@@ -1,3 +1,4 @@
+from inspect import getabsfile
 import numpy as np
 import control
 from scipy import signal
@@ -66,11 +67,16 @@ def plot_zeros_poles(poles_zeros):
 
 
 def plot_mag_phase(filters, fs):
-    for fi in filters:
-        w, h = signal.freqz(fi[0], fi[1], fs=fs)
+    bands = get_bands()
+    for i in range(len(filters)):
+        w, h = signal.freqz(filters[i][0], filters[i][1], fs=fs)
         fig = plt.figure()
         ax1 = fig.add_subplot(1, 1, 1)
-        ax1.set_title('Digital filter frequency response')
+
+        ax1.set_title(
+            'Filter frequency response' +
+            f'({bands[i][0]} to {bands[i][1]})Hz')
+
         ax1.plot(w, 20 * np.log10(abs(h)), 'b')
         ax1.set_ylabel('Amplitude [dB]', color='b')
         ax1.set_xlabel('Frequency [Hz]')
