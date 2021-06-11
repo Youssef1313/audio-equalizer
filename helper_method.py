@@ -16,11 +16,13 @@ def get_bands():
                      [14000, 16000]])
 
 
-def design_fir_system(fs, order=100, freqs=get_bands()):
-
+def fir_filters(order, fs):
     filters = []
-
+    freqs = get_bands()
     freqs[0] = freqs[0] / fs
+    if freqs[0][0] != 0:
+        raise ValueError("First filter is expected to be a lowpass filter.")
+
     if freqs[0][1] < 1:
         filters.append([signal.firwin(order + 1, freqs[0][1])])
 
